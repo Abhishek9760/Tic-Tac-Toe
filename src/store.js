@@ -14,7 +14,7 @@ const wins = [
 
 const name = prompt("name ?")
 console.log('joining namespace')
-const socket = io('http://localhost:9000', {
+const socket = io('https://fathomless-stream-20577.herokuapp.com/', {
     query: {name}
 });
 

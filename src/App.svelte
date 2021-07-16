@@ -15,7 +15,7 @@
     turn: false,
   };
   let winnerName;
-  let userCount;
+  let userCount = 1;
 
   $: console.log(userCount);
 

@@ -1,8 +1,12 @@
 const express = require('express')
 const app = express()
-const socketio = require('socket.io')
 
-const expressServer = app.listen(9000)
+app.use(express.static(__dirname + '/public'))
+
+const socketio = require('socket.io')
+const PORT = process.env.PORT || 3000
+const expressServer = app.listen(PORT)
+
 const io = socketio(expressServer, { cors: { origin: '*' } })
 io.on('connection', (socket) => {
     let roomName

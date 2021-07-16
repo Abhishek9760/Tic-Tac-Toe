@@ -8005,7 +8005,7 @@ var app = (function () {
 
     const name = prompt("name ?");
     console.log('joining namespace');
-    const socket$2 = io('http://localhost:9000', {
+    const socket$2 = io('https://fathomless-stream-20577.herokuapp.com/', {
         query: {name}
     });
 
@@ -8086,7 +8086,7 @@ var app = (function () {
     			t = space();
     			attr_dev(div, "class", "block svelte-xqsmfz");
     			attr_dev(div, "id", div_id_value = /*i*/ ctx[14] + 1);
-    			add_location(div, file$3, 96, 6, 2387);
+    			add_location(div, file$3, 96, 6, 2391);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8287,9 +8287,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-xqsmfz");
-    			add_location(div0, file$3, 94, 2, 2330);
+    			add_location(div0, file$3, 94, 2, 2334);
     			attr_dev(div1, "class", "container svelte-xqsmfz");
-    			add_location(div1, file$3, 93, 0, 2304);
+    			add_location(div1, file$3, 93, 0, 2308);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8562,7 +8562,7 @@ var app = (function () {
     	};
 
     	let winnerName;
-    	let userCount;
+    	let userCount = 1;
 
     	onMount(() => {
     		// JOINING ROOM
