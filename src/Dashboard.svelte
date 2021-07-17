@@ -93,7 +93,7 @@
 />
 <svelte:component this={tie ? Toast : null} text="Game Tie!" />
 <svelte:component this={winner ? Toast : null} text={`${winnerName} wins!`} />
-<div class="container" transition:fade>
+<div class="container">
   <div class="blocks">
     {#each $marks as mark, i}
       <div class="block" id={i + 1} on:click={() => nextTurn(i)}>

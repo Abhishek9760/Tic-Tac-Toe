@@ -5,7 +5,7 @@
   import { fade } from "svelte/transition";
 </script>
 
-<div class="form" transition:fade>
+<div class="form">
   <h1>Tic Tac Toe</h1>
   <div class="wrapper">
     <div class="text">
