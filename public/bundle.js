@@ -816,35 +816,35 @@ var app = (function () {
     			t7 = space();
     			button = element("button");
     			button.textContent = "JOIN";
-    			attr_dev(h1, "class", "svelte-6hh7qa");
+    			attr_dev(h1, "class", "svelte-1sdjst3");
     			add_location(h1, file, 7, 2, 160);
     			attr_dev(label0, "for", "name");
-    			attr_dev(label0, "class", "svelte-6hh7qa");
+    			attr_dev(label0, "class", "svelte-1sdjst3");
     			add_location(label0, file, 10, 6, 237);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "name");
     			attr_dev(input0, "autocapitalize", "off");
     			attr_dev(input0, "autocomplete", "off");
-    			attr_dev(input0, "class", "svelte-6hh7qa");
+    			attr_dev(input0, "class", "svelte-1sdjst3");
     			add_location(input0, file, 11, 6, 275);
-    			attr_dev(div0, "class", "text svelte-6hh7qa");
+    			attr_dev(div0, "class", "text svelte-1sdjst3");
     			add_location(div0, file, 9, 4, 211);
     			attr_dev(label1, "for", "room");
-    			attr_dev(label1, "class", "svelte-6hh7qa");
+    			attr_dev(label1, "class", "svelte-1sdjst3");
     			add_location(label1, file, 20, 6, 460);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "room");
     			attr_dev(input1, "autocapitalize", "off");
     			attr_dev(input1, "autocomplete", "off");
-    			attr_dev(input1, "class", "svelte-6hh7qa");
+    			attr_dev(input1, "class", "svelte-1sdjst3");
     			add_location(input1, file, 21, 6, 503);
-    			attr_dev(div1, "class", "text svelte-6hh7qa");
+    			attr_dev(div1, "class", "text svelte-1sdjst3");
     			add_location(div1, file, 19, 4, 434);
-    			attr_dev(button, "class", "svelte-6hh7qa");
+    			attr_dev(button, "class", "svelte-1sdjst3");
     			add_location(button, file, 29, 4, 666);
-    			attr_dev(div2, "class", "wrapper svelte-6hh7qa");
+    			attr_dev(div2, "class", "wrapper svelte-1sdjst3");
     			add_location(div2, file, 8, 2, 184);
-    			attr_dev(div3, "class", "form svelte-6hh7qa");
+    			attr_dev(div3, "class", "form svelte-1sdjst3");
     			add_location(div3, file, 6, 0, 122);
     		},
     		l: function claim(nodes) {
@@ -8539,7 +8539,7 @@ var app = (function () {
     			t = space();
     			attr_dev(div, "class", "block svelte-xqsmfz");
     			attr_dev(div, "id", div_id_value = /*i*/ ctx[16] + 1);
-    			add_location(div, file$4, 98, 6, 2566);
+    			add_location(div, file$4, 98, 6, 2591);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8741,9 +8741,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-xqsmfz");
-    			add_location(div0, file$4, 96, 2, 2507);
+    			add_location(div0, file$4, 96, 2, 2532);
     			attr_dev(div1, "class", "container svelte-xqsmfz");
-    			add_location(div1, file$4, 95, 0, 2464);
+    			add_location(div1, file$4, 95, 0, 2489);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9022,7 +9022,7 @@ var app = (function () {
     	let socket;
 
     	onMount(() => {
-    		$$invalidate(5, socket = io("http://localhost:3000", { query: { name } }));
+    		$$invalidate(5, socket = io("https://fathomless-stream-20577.herokuapp.com/", { query: { name } }));
 
     		// JOINING ROOM
     		socket.emit("join-room", roomCode);
