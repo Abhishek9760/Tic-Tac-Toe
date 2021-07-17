@@ -7,7 +7,7 @@ const socketio = require('socket.io')
 const PORT = process.env.PORT || 3000
 const expressServer = app.listen(PORT)
 
-const io = socketio(expressServer, { cors: { origin: 'https://jolly-northcutt-39458a.netlify.app' } })
+const io = socketio(expressServer, { cors: { origin: '*' } })
 io.on('connection', (socket) => {
     let roomName
     console.log('connected')
