@@ -816,35 +816,35 @@ var app = (function () {
     			t7 = space();
     			button = element("button");
     			button.textContent = "JOIN";
-    			attr_dev(h1, "class", "svelte-1sdjst3");
+    			attr_dev(h1, "class", "svelte-9f4s03");
     			add_location(h1, file, 7, 2, 160);
     			attr_dev(label0, "for", "name");
-    			attr_dev(label0, "class", "svelte-1sdjst3");
+    			attr_dev(label0, "class", "svelte-9f4s03");
     			add_location(label0, file, 10, 6, 237);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "name");
     			attr_dev(input0, "autocapitalize", "off");
     			attr_dev(input0, "autocomplete", "off");
-    			attr_dev(input0, "class", "svelte-1sdjst3");
+    			attr_dev(input0, "class", "svelte-9f4s03");
     			add_location(input0, file, 11, 6, 275);
-    			attr_dev(div0, "class", "text svelte-1sdjst3");
+    			attr_dev(div0, "class", "text svelte-9f4s03");
     			add_location(div0, file, 9, 4, 211);
     			attr_dev(label1, "for", "room");
-    			attr_dev(label1, "class", "svelte-1sdjst3");
+    			attr_dev(label1, "class", "svelte-9f4s03");
     			add_location(label1, file, 20, 6, 460);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "room");
     			attr_dev(input1, "autocapitalize", "off");
     			attr_dev(input1, "autocomplete", "off");
-    			attr_dev(input1, "class", "svelte-1sdjst3");
+    			attr_dev(input1, "class", "svelte-9f4s03");
     			add_location(input1, file, 21, 6, 503);
-    			attr_dev(div1, "class", "text svelte-1sdjst3");
+    			attr_dev(div1, "class", "text svelte-9f4s03");
     			add_location(div1, file, 19, 4, 434);
-    			attr_dev(button, "class", "svelte-1sdjst3");
+    			attr_dev(button, "class", "svelte-9f4s03");
     			add_location(button, file, 29, 4, 666);
-    			attr_dev(div2, "class", "wrapper svelte-1sdjst3");
+    			attr_dev(div2, "class", "wrapper svelte-9f4s03");
     			add_location(div2, file, 8, 2, 184);
-    			attr_dev(div3, "class", "form svelte-1sdjst3");
+    			attr_dev(div3, "class", "form svelte-9f4s03");
     			add_location(div3, file, 6, 0, 122);
     		},
     		l: function claim(nodes) {
@@ -9446,7 +9446,11 @@ var app = (function () {
     		$$invalidate(2, roomCode);
     	}
 
-    	const click_handler = () => $$invalidate(0, submitted = true);
+    	const click_handler = () => {
+    		if (roomCode.trim().length && name.trim().length) {
+    			$$invalidate(0, submitted = true);
+    		}
+    	};
 
     	$$self.$capture_state = () => ({
     		Form,
