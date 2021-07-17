@@ -10,5 +10,13 @@
 {#if submitted}
   <Dashboard {name} {roomCode} />
 {:else}
-  <Form on:click={() => (submitted = true)} bind:name bind:roomCode />
+  <Form
+    on:click={() => {
+      if (roomCode.trim().length && name.trim().length) {
+        submitted = true;
+      }
+    }}
+    bind:name
+    bind:roomCode
+  />
 {/if}
