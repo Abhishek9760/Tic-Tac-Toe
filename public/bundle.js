@@ -547,6 +547,12 @@ var app = (function () {
         };
     }
 
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
+
     function bind(component, name, callback) {
         const index = component.$$.props[name];
         if (index !== undefined) {
@@ -817,35 +823,35 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "JOIN";
     			attr_dev(h1, "class", "svelte-1sdjst3");
-    			add_location(h1, file, 7, 2, 160);
+    			add_location(h1, file, 8, 2, 179);
     			attr_dev(label0, "for", "name");
     			attr_dev(label0, "class", "svelte-1sdjst3");
-    			add_location(label0, file, 10, 6, 237);
+    			add_location(label0, file, 11, 6, 256);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "name");
     			attr_dev(input0, "autocapitalize", "off");
     			attr_dev(input0, "autocomplete", "off");
     			attr_dev(input0, "class", "svelte-1sdjst3");
-    			add_location(input0, file, 11, 6, 275);
+    			add_location(input0, file, 12, 6, 294);
     			attr_dev(div0, "class", "text svelte-1sdjst3");
-    			add_location(div0, file, 9, 4, 211);
+    			add_location(div0, file, 10, 4, 230);
     			attr_dev(label1, "for", "room");
     			attr_dev(label1, "class", "svelte-1sdjst3");
-    			add_location(label1, file, 20, 6, 460);
+    			add_location(label1, file, 21, 6, 479);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "room");
     			attr_dev(input1, "autocapitalize", "off");
     			attr_dev(input1, "autocomplete", "off");
     			attr_dev(input1, "class", "svelte-1sdjst3");
-    			add_location(input1, file, 21, 6, 503);
+    			add_location(input1, file, 22, 6, 522);
     			attr_dev(div1, "class", "text svelte-1sdjst3");
-    			add_location(div1, file, 19, 4, 434);
+    			add_location(div1, file, 20, 4, 453);
     			attr_dev(button, "class", "svelte-1sdjst3");
-    			add_location(button, file, 29, 4, 666);
+    			add_location(button, file, 31, 4, 710);
     			attr_dev(div2, "class", "wrapper svelte-1sdjst3");
-    			add_location(div2, file, 8, 2, 184);
+    			add_location(div2, file, 9, 2, 203);
     			attr_dev(div3, "class", "form svelte-1sdjst3");
-    			add_location(div3, file, 6, 0, 122);
+    			add_location(div3, file, 7, 0, 141);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -866,15 +872,16 @@ var app = (function () {
     			append_dev(div1, t6);
     			append_dev(div1, input1);
     			set_input_value(input1, /*roomCode*/ ctx[1]);
+    			/*input1_binding*/ ctx[6](input1);
     			append_dev(div2, t7);
     			append_dev(div2, button);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[3]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[4]),
-    					listen_dev(button, "click", /*click_handler*/ ctx[2], false, false, false)
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[4]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[5]),
+    					listen_dev(button, "click", /*click_handler*/ ctx[3], false, false, false)
     				];
 
     				mounted = true;
@@ -906,6 +913,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div3);
+    			/*input1_binding*/ ctx[6](null);
     			if (detaching && div3_transition) div3_transition.end();
     			mounted = false;
     			run_all(dispose);
@@ -928,7 +936,8 @@ var app = (function () {
     	validate_slots("Form", slots, []);
     	let { name = "" } = $$props;
     	let { roomCode = "" } = $$props;
-    	const writable_props = ["name", "roomCode"];
+    	let { ref } = $$props;
+    	const writable_props = ["name", "roomCode", "ref"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Form> was created with unknown prop '${key}'`);
@@ -948,29 +957,46 @@ var app = (function () {
     		$$invalidate(1, roomCode);
     	}
 
+    	function input1_binding($$value) {
+    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    			ref = $$value;
+    			$$invalidate(2, ref);
+    		});
+    	}
+
     	$$self.$$set = $$props => {
     		if ("name" in $$props) $$invalidate(0, name = $$props.name);
     		if ("roomCode" in $$props) $$invalidate(1, roomCode = $$props.roomCode);
+    		if ("ref" in $$props) $$invalidate(2, ref = $$props.ref);
     	};
 
-    	$$self.$capture_state = () => ({ name, roomCode, fade });
+    	$$self.$capture_state = () => ({ name, roomCode, ref, fade });
 
     	$$self.$inject_state = $$props => {
     		if ("name" in $$props) $$invalidate(0, name = $$props.name);
     		if ("roomCode" in $$props) $$invalidate(1, roomCode = $$props.roomCode);
+    		if ("ref" in $$props) $$invalidate(2, ref = $$props.ref);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [name, roomCode, click_handler, input0_input_handler, input1_input_handler];
+    	return [
+    		name,
+    		roomCode,
+    		ref,
+    		click_handler,
+    		input0_input_handler,
+    		input1_input_handler,
+    		input1_binding
+    	];
     }
 
     class Form extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance, create_fragment, safe_not_equal, { name: 0, roomCode: 1 });
+    		init(this, options, instance, create_fragment, safe_not_equal, { name: 0, roomCode: 1, ref: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -978,6 +1004,13 @@ var app = (function () {
     			options,
     			id: create_fragment.name
     		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*ref*/ ctx[2] === undefined && !("ref" in props)) {
+    			console.warn("<Form> was created without expected prop 'ref'");
+    		}
     	}
 
     	get name() {
@@ -993,6 +1026,14 @@ var app = (function () {
     	}
 
     	set roomCode(value) {
+    		throw new Error("<Form>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get ref() {
+    		throw new Error("<Form>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set ref(value) {
     		throw new Error("<Form>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -8539,7 +8580,7 @@ var app = (function () {
     			t = space();
     			attr_dev(div, "class", "block svelte-xqsmfz");
     			attr_dev(div, "id", div_id_value = /*i*/ ctx[16] + 1);
-    			add_location(div, file$4, 98, 6, 2591);
+    			add_location(div, file$4, 98, 6, 2566);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8741,9 +8782,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-xqsmfz");
-    			add_location(div0, file$4, 96, 2, 2532);
+    			add_location(div0, file$4, 96, 2, 2507);
     			attr_dev(div1, "class", "container svelte-xqsmfz");
-    			add_location(div1, file$4, 95, 0, 2489);
+    			add_location(div1, file$4, 95, 0, 2464);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9022,7 +9063,7 @@ var app = (function () {
     	let socket;
 
     	onMount(() => {
-    		$$invalidate(5, socket = io("https://fathomless-stream-20577.herokuapp.com/", { query: { name } }));
+    		$$invalidate(5, socket = io("http://localhost:3000", { query: { name } }));
 
     		// JOINING ROOM
     		socket.emit("join-room", roomCode);
@@ -9210,35 +9251,47 @@ var app = (function () {
 
     /* src\App.svelte generated by Svelte v3.38.3 */
 
-    // (12:0) {:else}
+    const { console: console_1 } = globals;
+
+    // (25:0) {:else}
     function create_else_block(ctx) {
     	let form;
+    	let updating_ref;
     	let updating_name;
     	let updating_roomCode;
     	let current;
 
+    	function form_ref_binding(value) {
+    		/*form_ref_binding*/ ctx[4](value);
+    	}
+
     	function form_name_binding(value) {
-    		/*form_name_binding*/ ctx[3](value);
+    		/*form_name_binding*/ ctx[5](value);
     	}
 
     	function form_roomCode_binding(value) {
-    		/*form_roomCode_binding*/ ctx[4](value);
+    		/*form_roomCode_binding*/ ctx[6](value);
     	}
 
     	let form_props = {};
 
-    	if (/*name*/ ctx[1] !== void 0) {
-    		form_props.name = /*name*/ ctx[1];
+    	if (/*ref*/ ctx[0] !== void 0) {
+    		form_props.ref = /*ref*/ ctx[0];
     	}
 
-    	if (/*roomCode*/ ctx[2] !== void 0) {
-    		form_props.roomCode = /*roomCode*/ ctx[2];
+    	if (/*name*/ ctx[2] !== void 0) {
+    		form_props.name = /*name*/ ctx[2];
+    	}
+
+    	if (/*roomCode*/ ctx[3] !== void 0) {
+    		form_props.roomCode = /*roomCode*/ ctx[3];
     	}
 
     	form = new Form({ props: form_props, $$inline: true });
+    	binding_callbacks.push(() => bind(form, "ref", form_ref_binding));
     	binding_callbacks.push(() => bind(form, "name", form_name_binding));
     	binding_callbacks.push(() => bind(form, "roomCode", form_roomCode_binding));
-    	form.$on("click", /*click_handler*/ ctx[5]);
+    	form.$on("click", /*click_handler*/ ctx[7]);
 
     	const block = {
     		c: function create() {
@@ -9251,15 +9304,21 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const form_changes = {};
 
-    			if (!updating_name && dirty & /*name*/ 2) {
+    			if (!updating_ref && dirty & /*ref*/ 1) {
+    				updating_ref = true;
+    				form_changes.ref = /*ref*/ ctx[0];
+    				add_flush_callback(() => updating_ref = false);
+    			}
+
+    			if (!updating_name && dirty & /*name*/ 4) {
     				updating_name = true;
-    				form_changes.name = /*name*/ ctx[1];
+    				form_changes.name = /*name*/ ctx[2];
     				add_flush_callback(() => updating_name = false);
     			}
 
-    			if (!updating_roomCode && dirty & /*roomCode*/ 4) {
+    			if (!updating_roomCode && dirty & /*roomCode*/ 8) {
     				updating_roomCode = true;
-    				form_changes.roomCode = /*roomCode*/ ctx[2];
+    				form_changes.roomCode = /*roomCode*/ ctx[3];
     				add_flush_callback(() => updating_roomCode = false);
     			}
 
@@ -9283,22 +9342,22 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(12:0) {:else}",
+    		source: "(25:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (10:0) {#if submitted}
+    // (23:0) {#if submitted}
     function create_if_block$1(ctx) {
     	let dashboard;
     	let current;
 
     	dashboard = new Dashboard({
     			props: {
-    				name: /*name*/ ctx[1],
-    				roomCode: /*roomCode*/ ctx[2]
+    				name: /*name*/ ctx[2],
+    				roomCode: /*roomCode*/ ctx[3]
     			},
     			$$inline: true
     		});
@@ -9313,8 +9372,8 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const dashboard_changes = {};
-    			if (dirty & /*name*/ 2) dashboard_changes.name = /*name*/ ctx[1];
-    			if (dirty & /*roomCode*/ 4) dashboard_changes.roomCode = /*roomCode*/ ctx[2];
+    			if (dirty & /*name*/ 4) dashboard_changes.name = /*name*/ ctx[2];
+    			if (dirty & /*roomCode*/ 8) dashboard_changes.roomCode = /*roomCode*/ ctx[3];
     			dashboard.$set(dashboard_changes);
     		},
     		i: function intro(local) {
@@ -9335,7 +9394,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(10:0) {#if submitted}",
+    		source: "(23:0) {#if submitted}",
     		ctx
     	});
 
@@ -9351,7 +9410,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*submitted*/ ctx[0]) return 0;
+    		if (/*submitted*/ ctx[1]) return 0;
     		return 1;
     	}
 
@@ -9424,52 +9483,89 @@ var app = (function () {
     	return block;
     }
 
+    function hideKeyboard(element) {
+    	element.setAttribute("readonly", "readonly"); // Force keyboard to hide on input field.
+    	element.setAttribute("disabled", "true"); // Force keyboard to hide on textarea field.
+
+    	setTimeout(
+    		function () {
+    			element.blur(); //actually close the keyboard
+
+    			// Remove readonly attribute after keyboard is hidden.
+    			element.removeAttribute("readonly");
+
+    			element.removeAttribute("disabled");
+    		},
+    		100
+    	);
+    }
+
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
     	let submitted = false;
     	let name = "";
     	let roomCode = "";
+    	let ref;
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<App> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<App> was created with unknown prop '${key}'`);
     	});
+
+    	function form_ref_binding(value) {
+    		ref = value;
+    		$$invalidate(0, ref);
+    	}
 
     	function form_name_binding(value) {
     		name = value;
-    		$$invalidate(1, name);
+    		$$invalidate(2, name);
     	}
 
     	function form_roomCode_binding(value) {
     		roomCode = value;
-    		$$invalidate(2, roomCode);
+    		$$invalidate(3, roomCode);
     	}
 
-    	const click_handler = () => $$invalidate(0, submitted = true);
+    	const click_handler = () => {
+    		hideKeyboard(ref);
+    		$$invalidate(1, submitted = true);
+    	};
 
     	$$self.$capture_state = () => ({
     		Form,
     		Dashboard,
     		submitted,
     		name,
-    		roomCode
+    		roomCode,
+    		ref,
+    		hideKeyboard
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("submitted" in $$props) $$invalidate(0, submitted = $$props.submitted);
-    		if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    		if ("roomCode" in $$props) $$invalidate(2, roomCode = $$props.roomCode);
+    		if ("submitted" in $$props) $$invalidate(1, submitted = $$props.submitted);
+    		if ("name" in $$props) $$invalidate(2, name = $$props.name);
+    		if ("roomCode" in $$props) $$invalidate(3, roomCode = $$props.roomCode);
+    		if ("ref" in $$props) $$invalidate(0, ref = $$props.ref);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*ref*/ 1) {
+    			 console.log(ref);
+    		}
+    	};
+
     	return [
+    		ref,
     		submitted,
     		name,
     		roomCode,
+    		form_ref_binding,
     		form_name_binding,
     		form_roomCode_binding,
     		click_handler

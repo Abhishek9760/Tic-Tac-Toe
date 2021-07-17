@@ -1,6 +1,7 @@
 <script>
   export let name = "";
   export let roomCode = "";
+  export let ref;
   import { fade } from "svelte/transition";
 </script>
 
@@ -25,6 +26,7 @@
         id="room"
         autocapitalize="off"
         autocomplete="off"
+        bind:this={ref}
       />
     </div>
     <button on:click>JOIN</button>

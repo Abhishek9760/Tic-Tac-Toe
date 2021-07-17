@@ -7,7 +7,9 @@ const socketio = require('socket.io')
 const PORT = process.env.PORT || 3000
 const expressServer = app.listen(PORT)
 
-const io = socketio(expressServer, { cors: { origin: '*' } })
+const io = socketio(expressServer, {
+    cors: { origin: '*' },
+})
 io.on('connection', (socket) => {
     let roomName
     console.log('connected')

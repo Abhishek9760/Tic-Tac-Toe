@@ -20,7 +20,7 @@
   let socket;
 
   onMount(() => {
-    socket = io("https://fathomless-stream-20577.herokuapp.com/", {
+    socket = io("http://localhost:3000", {
       query: { name },
     });
     // JOINING ROOM
