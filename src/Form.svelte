@@ -1,11 +1,10 @@
 <script>
   export let name = "";
   export let roomCode = "";
-  export let ref;
   import { fade } from "svelte/transition";
 </script>
 
-<div class="form">
+<div class="form" transition:fade>
   <h1>Tic Tac Toe</h1>
   <div class="wrapper">
     <div class="text">
@@ -26,7 +25,6 @@
         id="room"
         autocapitalize="off"
         autocomplete="off"
-        bind:this={ref}
       />
     </div>
     <button on:click>JOIN</button>

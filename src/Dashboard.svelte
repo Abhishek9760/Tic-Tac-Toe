@@ -20,7 +20,7 @@
   let socket;
 
   onMount(() => {
-    socket = io("https://fathomless-stream-20577.herokuapp.com/", {
+    socket = io("http://localhost:3000", {
       query: { name },
     });
     // JOINING ROOM
@@ -93,7 +93,7 @@
 />
 <svelte:component this={tie ? Toast : null} text="Game Tie!" />
 <svelte:component this={winner ? Toast : null} text={`${winnerName} wins!`} />
-<div class="container">
+<div class="container" transition:fade>
   <div class="blocks">
     {#each $marks as mark, i}
       <div class="block" id={i + 1} on:click={() => nextTurn(i)}>
