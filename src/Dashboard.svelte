@@ -19,6 +19,7 @@
   let userCount = 1;
   let socket;
   let blocks;
+  let clink = new Audio("/sounds/clink.mp3");
 
   onMount(() => {
     socket = io("https://fathomless-stream-20577.herokuapp.com/", {
@@ -44,10 +45,11 @@
     socket.on("updated-marks", (newMarks) => {
       let i = findDifferenceIndex(newMarks, $marks);
       if (i !== -1) {
+        clink.play();
         changeBg();
         changeBg(i);
+        marks.setMarks(newMarks);
       }
-      marks.setMarks(newMarks);
     });
 
     // GETTING TURN
@@ -86,6 +88,7 @@
     }
     changeBg();
     changeBg(i);
+    clink.play();
     player.turn = false;
     player.symbol = getSymbol();
     socket.emit("get-player", player);

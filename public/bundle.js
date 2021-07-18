@@ -8516,12 +8516,12 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[18] = list[i];
-    	child_ctx[20] = i;
+    	child_ctx[19] = list[i];
+    	child_ctx[21] = i;
     	return child_ctx;
     }
 
-    // (132:4) {#each $marks as mark, i}
+    // (135:4) {#each $marks as mark, i}
     function create_each_block(ctx) {
     	let div;
     	let button;
@@ -8532,12 +8532,12 @@ var app = (function () {
     	let dispose;
 
     	button = new Button({
-    			props: { text: /*mark*/ ctx[18] },
+    			props: { text: /*mark*/ ctx[19] },
     			$$inline: true
     		});
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[13](/*i*/ ctx[20]);
+    		return /*click_handler*/ ctx[13](/*i*/ ctx[21]);
     	}
 
     	const block = {
@@ -8546,8 +8546,8 @@ var app = (function () {
     			create_component(button.$$.fragment);
     			t = space();
     			attr_dev(div, "class", "block svelte-xqsmfz");
-    			attr_dev(div, "id", div_id_value = /*i*/ ctx[20]);
-    			add_location(div, file$4, 132, 6, 3320);
+    			attr_dev(div, "id", div_id_value = /*i*/ ctx[21]);
+    			add_location(div, file$4, 135, 6, 3386);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8563,7 +8563,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const button_changes = {};
-    			if (dirty & /*$marks*/ 128) button_changes.text = /*mark*/ ctx[18];
+    			if (dirty & /*$marks*/ 128) button_changes.text = /*mark*/ ctx[19];
     			button.$set(button_changes);
     		},
     		i: function intro(local) {
@@ -8587,14 +8587,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(132:4) {#each $marks as mark, i}",
+    		source: "(135:4) {#each $marks as mark, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (139:0) {#if winner || tie}
+    // (142:0) {#if winner || tie}
     function create_if_block(ctx) {
     	let gameover;
     	let current;
@@ -8633,7 +8633,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(139:0) {#if winner || tie}",
+    		source: "(142:0) {#if winner || tie}",
     		ctx
     	});
 
@@ -8749,9 +8749,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-xqsmfz");
-    			add_location(div0, file$4, 130, 2, 3242);
+    			add_location(div0, file$4, 133, 2, 3308);
     			attr_dev(div1, "class", "container svelte-xqsmfz");
-    			add_location(div1, file$4, 129, 0, 3199);
+    			add_location(div1, file$4, 132, 0, 3265);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9031,9 +9031,10 @@ var app = (function () {
     	let userCount = 1;
     	let socket;
     	let blocks;
+    	let clink = new Audio("/sounds/clink.mp3");
 
     	onMount(() => {
-    		$$invalidate(5, socket = io("https://fathomless-stream-20577.herokuapp.com/", { query: { name } }));
+    		$$invalidate(5, socket = io("http://localhost:3000", { query: { name } }));
 
     		// JOINING ROOM
     		socket.emit("join-room", roomCode);
@@ -9056,11 +9057,11 @@ var app = (function () {
     			let i = findDifferenceIndex(newMarks, $marks);
 
     			if (i !== -1) {
+    				clink.play();
     				changeBg();
     				changeBg(i);
+    				marks.setMarks(newMarks);
     			}
-
-    			marks.setMarks(newMarks);
     		});
 
     		// GETTING TURN
@@ -9102,6 +9103,7 @@ var app = (function () {
 
     		changeBg();
     		changeBg(i);
+    		clink.play();
     		$$invalidate(2, player.turn = false, player);
     		$$invalidate(2, player.symbol = getSymbol(), player);
     		socket.emit("get-player", player);
@@ -9180,6 +9182,7 @@ var app = (function () {
     		userCount,
     		socket,
     		blocks,
+    		clink,
     		findDifferenceIndex,
     		getSymbol,
     		nextTurn,
@@ -9198,6 +9201,7 @@ var app = (function () {
     		if ("userCount" in $$props) $$invalidate(4, userCount = $$props.userCount);
     		if ("socket" in $$props) $$invalidate(5, socket = $$props.socket);
     		if ("blocks" in $$props) $$invalidate(6, blocks = $$props.blocks);
+    		if ("clink" in $$props) clink = $$props.clink;
     	};
 
     	if ($$props && "$$inject" in $$props) {
