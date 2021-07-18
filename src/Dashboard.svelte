@@ -18,6 +18,7 @@
   let winnerName;
   let userCount = 1;
   let socket;
+  let blocks;
 
   onMount(() => {
     socket = io("https://fathomless-stream-20577.herokuapp.com/", {
@@ -25,7 +26,10 @@
     });
     // JOINING ROOM
     socket.emit("join-room", roomCode);
+
+    // GET USERS COUNT
     socket.emit("get-users-count");
+
     // GETTING MARKERS
     socket.on("get-data", () => {
       socket.emit("marks-list", $marks);
@@ -37,7 +41,14 @@
     });
 
     // UPDATED MARKERS
-    socket.on("updated-marks", (newMarks) => marks.setMarks(newMarks));
+    socket.on("updated-marks", (newMarks) => {
+      let i = findDifferenceIndex(newMarks, $marks);
+      if (i !== -1) {
+        changeBg();
+        changeBg(i);
+      }
+      marks.setMarks(newMarks);
+    });
 
     // GETTING TURN
     socket.emit("get-player", player);
@@ -50,6 +61,7 @@
 
     // RESET GAME
     socket.on("reset-game", reset);
+
     // TIE
     socket.on("tie-game", () => (tie = true));
 
@@ -57,12 +69,23 @@
     socket.on("name", (name) => (winnerName = name));
   });
 
+  const findDifferenceIndex = (newArr, oldArr) => {
+    for (let i = 0; i < newArr.length; i++) {
+      if (newArr[i] !== oldArr[i]) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
   const getSymbol = () => (player.symbol === "X" ? "O" : "X");
 
   const nextTurn = (i) => {
     if (!player.turn || $marks[i] === "X" || $marks[i] === "O") {
       return;
     }
+    changeBg();
+    changeBg(i);
     player.turn = false;
     player.symbol = getSymbol();
     socket.emit("get-player", player);
@@ -82,7 +105,18 @@
   const reset = () => {
     winner = null;
     tie = false;
+    changeBg();
     marks.clear();
+  };
+
+  const changeBg = (id) => {
+    if (id !== undefined) {
+      blocks.children[id].style.background = "rgb(1 4 23 / 68%)";
+    } else {
+      for (let block of blocks.children) {
+        block.style.background = "rgba(255, 255, 255, 0.3)";
+      }
+    }
   };
 </script>
 
@@ -94,9 +128,9 @@
 <svelte:component this={tie ? Toast : null} text="Game Tie!" />
 <svelte:component this={winner ? Toast : null} text={`${winnerName} wins!`} />
 <div class="container" transition:fade>
-  <div class="blocks">
+  <div class="blocks" bind:this={blocks}>
     {#each $marks as mark, i}
-      <div class="block" id={i + 1} on:click={() => nextTurn(i)}>
+      <div class="block" id={i} on:click={() => nextTurn(i)}>
         <Button text={mark} />
       </div>
     {/each}

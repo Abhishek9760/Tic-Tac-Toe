@@ -218,6 +218,13 @@ var app = (function () {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
     }
+    function prevent_default(fn) {
+        return function (event) {
+            event.preventDefault();
+            // @ts-ignore
+            return fn.call(this, event);
+        };
+    }
     function attr(node, attribute, value) {
         if (value == null)
             node.removeAttribute(attribute);
@@ -775,7 +782,7 @@ var app = (function () {
     const file = "src\\Form.svelte";
 
     function create_fragment(ctx) {
-    	let div3;
+    	let form;
     	let h1;
     	let t1;
     	let div2;
@@ -790,14 +797,14 @@ var app = (function () {
     	let input1;
     	let t7;
     	let button;
-    	let div3_transition;
+    	let form_transition;
     	let current;
     	let mounted;
     	let dispose;
 
     	const block = {
     		c: function create() {
-    			div3 = element("div");
+    			form = element("form");
     			h1 = element("h1");
     			h1.textContent = "Tic Tac Toe";
     			t1 = space();
@@ -816,45 +823,46 @@ var app = (function () {
     			t7 = space();
     			button = element("button");
     			button.textContent = "JOIN";
-    			attr_dev(h1, "class", "svelte-9f4s03");
-    			add_location(h1, file, 7, 2, 160);
+    			attr_dev(h1, "class", "svelte-iuslrn");
+    			add_location(h1, file, 7, 2, 173);
     			attr_dev(label0, "for", "name");
-    			attr_dev(label0, "class", "svelte-9f4s03");
-    			add_location(label0, file, 10, 6, 237);
+    			attr_dev(label0, "class", "svelte-iuslrn");
+    			add_location(label0, file, 10, 6, 250);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "name");
     			attr_dev(input0, "autocapitalize", "off");
     			attr_dev(input0, "autocomplete", "off");
-    			attr_dev(input0, "class", "svelte-9f4s03");
-    			add_location(input0, file, 11, 6, 275);
-    			attr_dev(div0, "class", "text svelte-9f4s03");
-    			add_location(div0, file, 9, 4, 211);
+    			attr_dev(input0, "class", "svelte-iuslrn");
+    			add_location(input0, file, 11, 6, 288);
+    			attr_dev(div0, "class", "text svelte-iuslrn");
+    			add_location(div0, file, 9, 4, 224);
     			attr_dev(label1, "for", "room");
-    			attr_dev(label1, "class", "svelte-9f4s03");
-    			add_location(label1, file, 20, 6, 460);
+    			attr_dev(label1, "class", "svelte-iuslrn");
+    			add_location(label1, file, 20, 6, 473);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "room");
     			attr_dev(input1, "autocapitalize", "off");
     			attr_dev(input1, "autocomplete", "off");
-    			attr_dev(input1, "class", "svelte-9f4s03");
-    			add_location(input1, file, 21, 6, 503);
-    			attr_dev(div1, "class", "text svelte-9f4s03");
-    			add_location(div1, file, 19, 4, 434);
-    			attr_dev(button, "class", "svelte-9f4s03");
-    			add_location(button, file, 29, 4, 666);
-    			attr_dev(div2, "class", "wrapper svelte-9f4s03");
-    			add_location(div2, file, 8, 2, 184);
-    			attr_dev(div3, "class", "form svelte-9f4s03");
-    			add_location(div3, file, 6, 0, 122);
+    			attr_dev(input1, "class", "svelte-iuslrn");
+    			add_location(input1, file, 21, 6, 516);
+    			attr_dev(div1, "class", "text svelte-iuslrn");
+    			add_location(div1, file, 19, 4, 447);
+    			attr_dev(button, "type", "submit");
+    			attr_dev(button, "class", "svelte-iuslrn");
+    			add_location(button, file, 29, 4, 679);
+    			attr_dev(div2, "class", "wrapper svelte-iuslrn");
+    			add_location(div2, file, 8, 2, 197);
+    			attr_dev(form, "class", "svelte-iuslrn");
+    			add_location(form, file, 6, 0, 122);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div3, anchor);
-    			append_dev(div3, h1);
-    			append_dev(div3, t1);
-    			append_dev(div3, div2);
+    			insert_dev(target, form, anchor);
+    			append_dev(form, h1);
+    			append_dev(form, t1);
+    			append_dev(form, div2);
     			append_dev(div2, div0);
     			append_dev(div0, label0);
     			append_dev(div0, t3);
@@ -874,7 +882,7 @@ var app = (function () {
     				dispose = [
     					listen_dev(input0, "input", /*input0_input_handler*/ ctx[3]),
     					listen_dev(input1, "input", /*input1_input_handler*/ ctx[4]),
-    					listen_dev(button, "click", /*click_handler*/ ctx[2], false, false, false)
+    					listen_dev(form, "submit", prevent_default(/*submit_handler*/ ctx[2]), false, true, false)
     				];
 
     				mounted = true;
@@ -893,20 +901,20 @@ var app = (function () {
     			if (current) return;
 
     			add_render_callback(() => {
-    				if (!div3_transition) div3_transition = create_bidirectional_transition(div3, fade, {}, true);
-    				div3_transition.run(1);
+    				if (!form_transition) form_transition = create_bidirectional_transition(form, fade, {}, true);
+    				form_transition.run(1);
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
-    			if (!div3_transition) div3_transition = create_bidirectional_transition(div3, fade, {}, false);
-    			div3_transition.run(0);
+    			if (!form_transition) form_transition = create_bidirectional_transition(form, fade, {}, false);
+    			form_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div3);
-    			if (detaching && div3_transition) div3_transition.end();
+    			if (detaching) detach_dev(form);
+    			if (detaching && form_transition) form_transition.end();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -934,7 +942,7 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Form> was created with unknown prop '${key}'`);
     	});
 
-    	function click_handler(event) {
+    	function submit_handler(event) {
     		bubble.call(this, $$self, event);
     	}
 
@@ -964,7 +972,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [name, roomCode, click_handler, input0_input_handler, input1_input_handler];
+    	return [name, roomCode, submit_handler, input0_input_handler, input1_input_handler];
     }
 
     class Form extends SvelteComponentDev {
@@ -8508,12 +8516,12 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[16] = i;
+    	child_ctx[18] = list[i];
+    	child_ctx[20] = i;
     	return child_ctx;
     }
 
-    // (98:4) {#each $marks as mark, i}
+    // (132:4) {#each $marks as mark, i}
     function create_each_block(ctx) {
     	let div;
     	let button;
@@ -8524,12 +8532,12 @@ var app = (function () {
     	let dispose;
 
     	button = new Button({
-    			props: { text: /*mark*/ ctx[14] },
+    			props: { text: /*mark*/ ctx[18] },
     			$$inline: true
     		});
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[12](/*i*/ ctx[16]);
+    		return /*click_handler*/ ctx[13](/*i*/ ctx[20]);
     	}
 
     	const block = {
@@ -8538,8 +8546,8 @@ var app = (function () {
     			create_component(button.$$.fragment);
     			t = space();
     			attr_dev(div, "class", "block svelte-xqsmfz");
-    			attr_dev(div, "id", div_id_value = /*i*/ ctx[16] + 1);
-    			add_location(div, file$4, 98, 6, 2566);
+    			attr_dev(div, "id", div_id_value = /*i*/ ctx[20]);
+    			add_location(div, file$4, 132, 6, 3320);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8555,7 +8563,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const button_changes = {};
-    			if (dirty & /*$marks*/ 64) button_changes.text = /*mark*/ ctx[14];
+    			if (dirty & /*$marks*/ 128) button_changes.text = /*mark*/ ctx[18];
     			button.$set(button_changes);
     		},
     		i: function intro(local) {
@@ -8579,14 +8587,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(98:4) {#each $marks as mark, i}",
+    		source: "(132:4) {#each $marks as mark, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (105:0) {#if winner || tie}
+    // (139:0) {#if winner || tie}
     function create_if_block(ctx) {
     	let gameover;
     	let current;
@@ -8596,7 +8604,7 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	gameover.$on("click", /*click_handler_1*/ ctx[13]);
+    	gameover.$on("click", /*click_handler_1*/ ctx[15]);
 
     	const block = {
     		c: function create() {
@@ -8625,7 +8633,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(105:0) {#if winner || tie}",
+    		source: "(139:0) {#if winner || tie}",
     		ctx
     	});
 
@@ -8669,7 +8677,7 @@ var app = (function () {
     		return {
     			props: {
     				text: /*player*/ ctx[2].turn
-    				? `Your turn ${/*getSymbol*/ ctx[7]()}`
+    				? `Your turn ${/*getSymbol*/ ctx[8]()}`
     				: "Waiting..."
     			},
     			$$inline: true
@@ -8706,7 +8714,7 @@ var app = (function () {
     		switch_instance3 = new switch_value_3(switch_props_3(ctx));
     	}
 
-    	let each_value = /*$marks*/ ctx[6];
+    	let each_value = /*$marks*/ ctx[7];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -8741,9 +8749,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-xqsmfz");
-    			add_location(div0, file$4, 96, 2, 2507);
+    			add_location(div0, file$4, 130, 2, 3242);
     			attr_dev(div1, "class", "container svelte-xqsmfz");
-    			add_location(div1, file$4, 95, 0, 2464);
+    			add_location(div1, file$4, 129, 0, 3199);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8779,6 +8787,7 @@ var app = (function () {
     				each_blocks[i].m(div0, null);
     			}
 
+    			/*div0_binding*/ ctx[14](div0);
     			insert_dev(target, t4, anchor);
     			if (if_block) if_block.m(target, anchor);
     			insert_dev(target, if_block_anchor, anchor);
@@ -8815,7 +8824,7 @@ var app = (function () {
     			const switch_instance1_changes = {};
 
     			if (dirty & /*player*/ 4) switch_instance1_changes.text = /*player*/ ctx[2].turn
-    			? `Your turn ${/*getSymbol*/ ctx[7]()}`
+    			? `Your turn ${/*getSymbol*/ ctx[8]()}`
     			: "Waiting...";
 
     			if (switch_value_1 !== (switch_value_1 = /*tie*/ ctx[1] || /*winner*/ ctx[0] ? null : Toast)) {
@@ -8891,8 +8900,8 @@ var app = (function () {
     				switch_instance3.$set(switch_instance3_changes);
     			}
 
-    			if (dirty & /*nextTurn, $marks*/ 320) {
-    				each_value = /*$marks*/ ctx[6];
+    			if (dirty & /*nextTurn, $marks*/ 640) {
+    				each_value = /*$marks*/ ctx[7];
     				validate_each_argument(each_value);
     				let i;
 
@@ -8988,6 +8997,7 @@ var app = (function () {
     			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(div1);
     			destroy_each(each_blocks, detaching);
+    			/*div0_binding*/ ctx[14](null);
     			if (detaching && div1_transition) div1_transition.end();
     			if (detaching) detach_dev(t4);
     			if (if_block) if_block.d(detaching);
@@ -9009,7 +9019,7 @@ var app = (function () {
     function instance$4($$self, $$props, $$invalidate) {
     	let $marks;
     	validate_store(marks, "marks");
-    	component_subscribe($$self, marks, $$value => $$invalidate(6, $marks = $$value));
+    	component_subscribe($$self, marks, $$value => $$invalidate(7, $marks = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Dashboard", slots, []);
     	let { name } = $$props;
@@ -9020,13 +9030,15 @@ var app = (function () {
     	let winnerName;
     	let userCount = 1;
     	let socket;
+    	let blocks;
 
     	onMount(() => {
-    		$$invalidate(5, socket = io("http://localhost:3000", { query: { name } }));
+    		$$invalidate(5, socket = io("https://fathomless-stream-20577.herokuapp.com/", { query: { name } }));
 
     		// JOINING ROOM
     		socket.emit("join-room", roomCode);
 
+    		// GET USERS COUNT
     		socket.emit("get-users-count");
 
     		// GETTING MARKERS
@@ -9040,7 +9052,16 @@ var app = (function () {
     		});
 
     		// UPDATED MARKERS
-    		socket.on("updated-marks", newMarks => marks.setMarks(newMarks));
+    		socket.on("updated-marks", newMarks => {
+    			let i = findDifferenceIndex(newMarks, $marks);
+
+    			if (i !== -1) {
+    				changeBg();
+    				changeBg(i);
+    			}
+
+    			marks.setMarks(newMarks);
+    		});
 
     		// GETTING TURN
     		socket.emit("get-player", player);
@@ -9062,6 +9083,16 @@ var app = (function () {
     		socket.on("name", name => $$invalidate(3, winnerName = name));
     	});
 
+    	const findDifferenceIndex = (newArr, oldArr) => {
+    		for (let i = 0; i < newArr.length; i++) {
+    			if (newArr[i] !== oldArr[i]) {
+    				return i;
+    			}
+    		}
+
+    		return -1;
+    	};
+
     	const getSymbol = () => player.symbol === "X" ? "O" : "X";
 
     	const nextTurn = i => {
@@ -9069,6 +9100,8 @@ var app = (function () {
     			return;
     		}
 
+    		changeBg();
+    		changeBg(i);
     		$$invalidate(2, player.turn = false, player);
     		$$invalidate(2, player.symbol = getSymbol(), player);
     		socket.emit("get-player", player);
@@ -9091,7 +9124,18 @@ var app = (function () {
     	const reset = () => {
     		$$invalidate(0, winner = null);
     		$$invalidate(1, tie = false);
+    		changeBg();
     		marks.clear();
+    	};
+
+    	const changeBg = id => {
+    		if (id !== undefined) {
+    			$$invalidate(6, blocks.children[id].style.background = "rgb(1 4 23 / 68%)", blocks);
+    		} else {
+    			for (let block of blocks.children) {
+    				block.style.background = "rgba(255, 255, 255, 0.3)";
+    			}
+    		}
     	};
 
     	const writable_props = ["name", "roomCode"];
@@ -9102,14 +9146,21 @@ var app = (function () {
 
     	const click_handler = i => nextTurn(i);
 
+    	function div0_binding($$value) {
+    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    			blocks = $$value;
+    			$$invalidate(6, blocks);
+    		});
+    	}
+
     	const click_handler_1 = () => {
     		socket.emit("newgame");
     		reset();
     	};
 
     	$$self.$$set = $$props => {
-    		if ("name" in $$props) $$invalidate(10, name = $$props.name);
-    		if ("roomCode" in $$props) $$invalidate(11, roomCode = $$props.roomCode);
+    		if ("name" in $$props) $$invalidate(11, name = $$props.name);
+    		if ("roomCode" in $$props) $$invalidate(12, roomCode = $$props.roomCode);
     	};
 
     	$$self.$capture_state = () => ({
@@ -9128,21 +9179,25 @@ var app = (function () {
     		winnerName,
     		userCount,
     		socket,
+    		blocks,
+    		findDifferenceIndex,
     		getSymbol,
     		nextTurn,
     		reset,
+    		changeBg,
     		$marks
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("name" in $$props) $$invalidate(10, name = $$props.name);
-    		if ("roomCode" in $$props) $$invalidate(11, roomCode = $$props.roomCode);
+    		if ("name" in $$props) $$invalidate(11, name = $$props.name);
+    		if ("roomCode" in $$props) $$invalidate(12, roomCode = $$props.roomCode);
     		if ("winner" in $$props) $$invalidate(0, winner = $$props.winner);
     		if ("tie" in $$props) $$invalidate(1, tie = $$props.tie);
     		if ("player" in $$props) $$invalidate(2, player = $$props.player);
     		if ("winnerName" in $$props) $$invalidate(3, winnerName = $$props.winnerName);
     		if ("userCount" in $$props) $$invalidate(4, userCount = $$props.userCount);
     		if ("socket" in $$props) $$invalidate(5, socket = $$props.socket);
+    		if ("blocks" in $$props) $$invalidate(6, blocks = $$props.blocks);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -9156,6 +9211,7 @@ var app = (function () {
     		winnerName,
     		userCount,
     		socket,
+    		blocks,
     		$marks,
     		getSymbol,
     		nextTurn,
@@ -9163,6 +9219,7 @@ var app = (function () {
     		name,
     		roomCode,
     		click_handler,
+    		div0_binding,
     		click_handler_1
     	];
     }
@@ -9170,7 +9227,7 @@ var app = (function () {
     class Dashboard extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { name: 10, roomCode: 11 });
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { name: 11, roomCode: 12 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -9182,11 +9239,11 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*name*/ ctx[10] === undefined && !("name" in props)) {
+    		if (/*name*/ ctx[11] === undefined && !("name" in props)) {
     			console.warn("<Dashboard> was created without expected prop 'name'");
     		}
 
-    		if (/*roomCode*/ ctx[11] === undefined && !("roomCode" in props)) {
+    		if (/*roomCode*/ ctx[12] === undefined && !("roomCode" in props)) {
     			console.warn("<Dashboard> was created without expected prop 'roomCode'");
     		}
     	}
@@ -9210,7 +9267,7 @@ var app = (function () {
 
     /* src\App.svelte generated by Svelte v3.38.3 */
 
-    // (12:0) {:else}
+    // (18:0) {:else}
     function create_else_block(ctx) {
     	let form;
     	let updating_name;
@@ -9218,11 +9275,11 @@ var app = (function () {
     	let current;
 
     	function form_name_binding(value) {
-    		/*form_name_binding*/ ctx[3](value);
+    		/*form_name_binding*/ ctx[4](value);
     	}
 
     	function form_roomCode_binding(value) {
-    		/*form_roomCode_binding*/ ctx[4](value);
+    		/*form_roomCode_binding*/ ctx[5](value);
     	}
 
     	let form_props = {};
@@ -9238,7 +9295,7 @@ var app = (function () {
     	form = new Form({ props: form_props, $$inline: true });
     	binding_callbacks.push(() => bind(form, "name", form_name_binding));
     	binding_callbacks.push(() => bind(form, "roomCode", form_roomCode_binding));
-    	form.$on("click", /*click_handler*/ ctx[5]);
+    	form.$on("submit", /*submit*/ ctx[3]);
 
     	const block = {
     		c: function create() {
@@ -9283,14 +9340,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(12:0) {:else}",
+    		source: "(18:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (10:0) {#if submitted}
+    // (16:0) {#if submitted}
     function create_if_block$1(ctx) {
     	let dashboard;
     	let current;
@@ -9335,7 +9392,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(10:0) {#if submitted}",
+    		source: "(16:0) {#if submitted}",
     		ctx
     	});
 
@@ -9430,6 +9487,13 @@ var app = (function () {
     	let submitted = false;
     	let name = "";
     	let roomCode = "";
+
+    	const submit = () => {
+    		if (roomCode.trim().length && name.trim().length) {
+    			$$invalidate(0, submitted = true);
+    		}
+    	};
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -9446,18 +9510,13 @@ var app = (function () {
     		$$invalidate(2, roomCode);
     	}
 
-    	const click_handler = () => {
-    		if (roomCode.trim().length && name.trim().length) {
-    			$$invalidate(0, submitted = true);
-    		}
-    	};
-
     	$$self.$capture_state = () => ({
     		Form,
     		Dashboard,
     		submitted,
     		name,
-    		roomCode
+    		roomCode,
+    		submit
     	});
 
     	$$self.$inject_state = $$props => {
@@ -9470,14 +9529,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [
-    		submitted,
-    		name,
-    		roomCode,
-    		form_name_binding,
-    		form_roomCode_binding,
-    		click_handler
-    	];
+    	return [submitted, name, roomCode, submit, form_name_binding, form_roomCode_binding];
     }
 
     class App extends SvelteComponentDev {

@@ -31,7 +31,6 @@ io.on('connection', (socket) => {
     socket.on('join-room', (roomCode) => {
         const userCount = updateUsersInRoom('/', roomCode)
         roomName = roomCode
-        // console.log(userCount)
         if (userCount <= 1) {
             socket.join(roomCode)
             socket.to(roomCode).emit('get-data')

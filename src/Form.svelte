@@ -4,7 +4,7 @@
   import { fade } from "svelte/transition";
 </script>
 
-<div class="form" transition:fade>
+<form on:submit|preventDefault transition:fade>
   <h1>Tic Tac Toe</h1>
   <div class="wrapper">
     <div class="text">
@@ -27,9 +27,9 @@
         autocomplete="off"
       />
     </div>
-    <button on:click>JOIN</button>
+    <button type="submit">JOIN</button>
   </div>
-</div>
+</form>
 
 <style>
   h1 {
@@ -43,7 +43,7 @@
     text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
       0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
   }
-  .form {
+  form {
     height: 100%;
     width: 100%;
     display: flex;
