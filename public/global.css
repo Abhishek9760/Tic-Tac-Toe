@@ -25,6 +25,19 @@ body {
     width: 100%;
     object-fit: cover;
 }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 1em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 1em;
+  }
 @media (max-width: 500px) {
 html {
    font-size: 90%;

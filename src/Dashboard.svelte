@@ -3,9 +3,9 @@
   import { fade } from "svelte/transition";
   import Toast from "./Toast.svelte";
   import GameOver from "./GameOver.svelte";
-  import marks from "./store";
+  import marks, { socket } from "./store";
   import { onMount } from "svelte";
-  import io from "socket.io-client";
+  import Chat from "./Chat.svelte";
 
   export let name;
   export let roomCode;
@@ -17,14 +17,14 @@
   };
   let winnerName;
   let userCount = 1;
-  let socket;
   let blocks;
   let clink = new Audio("/sounds/clink.mp3");
 
   onMount(() => {
-    socket = io("https://fathomless-stream-20577.herokuapp.com/", {
-      query: { name },
-    });
+    // socket = io("https://fathomless-stream-20577.herokuapp.com/", {
+    // query: { name },
+    // });
+    // socket.close();
     // JOINING ROOM
     socket.emit("join-room", roomCode);
 
@@ -69,6 +69,7 @@
 
     //  WINNER'S NAME
     socket.on("name", (name) => (winnerName = name));
+    socket.emit("history", roomCode);
   });
 
   const findDifferenceIndex = (newArr, oldArr) => {
@@ -96,7 +97,7 @@
     socket.emit("marks-list", $marks);
     winner = marks.checkWin();
     if (winner) {
-      socket.emit("get-name");
+      socket.emit("get-name", name);
       socket.emit("winner", winner);
     }
     tie = marks.checkTie();
@@ -130,6 +131,7 @@
 />
 <svelte:component this={tie ? Toast : null} text="Game Tie!" />
 <svelte:component this={winner ? Toast : null} text={`${winnerName} wins!`} />
+<Chat {name} />
 <div class="container" transition:fade>
   <div class="blocks" bind:this={blocks}>
     {#each $marks as mark, i}

@@ -1,4 +1,5 @@
 import {writable} from 'svelte/store';
+  import io from "socket.io-client";
 
 const wins = [
     [0, 1, 2],
@@ -10,7 +11,7 @@ const wins = [
     [0, 4, 8],
     [2, 4, 6],
 ];
-
+const socket = io("https://fathomless-stream-20577.herokuapp.com/");
 function createStore() {
     const marks = writable(Array.from(" ".repeat(9)));
 
@@ -48,4 +49,5 @@ function createStore() {
         },
     }
 }
+export {socket}
 export default createStore();

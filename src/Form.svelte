@@ -112,6 +112,7 @@
     border: 1px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
     color: #fff;
+    font-size: 1rem;
     font-family: "Lobster Two", cursive;
   }
 
