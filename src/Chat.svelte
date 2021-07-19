@@ -2,7 +2,7 @@
   import { socket } from "./store";
   import { onMount } from "svelte";
   export let name;
-  let toggle = true;
+  let toggle = false;
   let message = "";
   let messages = [];
 
