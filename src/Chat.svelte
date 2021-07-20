@@ -1,6 +1,7 @@
 <script>
   import { socket } from "./store";
   import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
   export let name;
   let toggle = false;
   let message = "";
@@ -24,8 +25,10 @@
   });
 
   const addMessage = () => {
-    socket.emit("newMessage", { message, from: name });
-    message = "";
+    if (message.trim().length) {
+      socket.emit("newMessage", { message, from: name });
+      message = "";
+    }
   };
 
   const toggleDrawer = () => (toggle = !toggle);
@@ -38,7 +41,10 @@
   <div class="container">
     <ul bind:this={messageList}>
       {#each messages as message}
-        <li class:recieve={message.from === name}>
+        <li
+          transition:fly={{ x: message.from === name ? 100 : -100 }}
+          class:recieve={message.from === name}
+        >
           <p class:right={message.from === name}>{message.message}</p>
         </li>
       {/each}
@@ -140,6 +146,7 @@
     list-style: none;
     overflow-y: auto;
     height: 399px;
+    overflow-x: hidden;
   }
   .recieve {
     border-radius: 15px 0 15px 15px;

@@ -768,6 +768,11 @@ var app = (function () {
         $inject_state() { }
     }
 
+    function cubicOut(t) {
+        const f = t - 1.0;
+        return f * f * f + 1.0;
+    }
+
     function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
         const o = +getComputedStyle(node).opacity;
         return {
@@ -775,6 +780,36 @@ var app = (function () {
             duration,
             easing,
             css: t => `opacity: ${t * o}`
+        };
+    }
+    function fly(node, { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 } = {}) {
+        const style = getComputedStyle(node);
+        const target_opacity = +style.opacity;
+        const transform = style.transform === 'none' ? '' : style.transform;
+        const od = target_opacity * (1 - opacity);
+        return {
+            delay,
+            duration,
+            easing,
+            css: (t, u) => `
+			transform: ${transform} translate(${(1 - t) * x}px, ${(1 - t) * y}px);
+			opacity: ${target_opacity - (od * u)}`
+        };
+    }
+    function scale(node, { delay = 0, duration = 400, easing = cubicOut, start = 0, opacity = 0 } = {}) {
+        const style = getComputedStyle(node);
+        const target_opacity = +style.opacity;
+        const transform = style.transform === 'none' ? '' : style.transform;
+        const sd = 1 - start;
+        const od = target_opacity * (1 - opacity);
+        return {
+            delay,
+            duration,
+            easing,
+            css: (_t, u) => `
+			transform: ${transform} scale(${1 - (sd * u)});
+			opacity: ${target_opacity - (od * u)}
+		`
         };
     }
 
@@ -1018,7 +1053,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			t = text(/*text*/ ctx[0]);
-    			attr_dev(span, "class", "noselect svelte-13lpvj7");
+    			attr_dev(span, "class", "noselect svelte-e4e00");
     			attr_dev(span, "style", span_style_value = `color: ${/*text*/ ctx[0] === "X" ? "#F49097" : "#F5E960"}`);
     			add_location(span, file$1, 4, 0, 48);
     		},
@@ -8529,7 +8564,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (34:0) {#if toggle}
+    // (37:0) {#if toggle}
     function create_if_block(ctx) {
     	let div;
     	let mounted;
@@ -8539,7 +8574,7 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			attr_dev(div, "class", "backdrop");
-    			add_location(div, file$4, 34, 2, 828);
+    			add_location(div, file$4, 37, 2, 917);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8561,20 +8596,22 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(34:0) {#if toggle}",
+    		source: "(37:0) {#if toggle}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:6) {#each messages as message}
+    // (43:6) {#each messages as message}
     function create_each_block(ctx) {
     	let li;
     	let p;
     	let t0_value = /*message*/ ctx[4].message + "";
     	let t0;
     	let t1;
+    	let li_transition;
+    	let current;
 
     	const block = {
     		c: function create() {
@@ -8582,21 +8619,23 @@ var app = (function () {
     			p = element("p");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(p, "class", "svelte-c89h3r");
+    			attr_dev(p, "class", "svelte-1pd6vzn");
     			toggle_class(p, "right", /*message*/ ctx[4].from === /*name*/ ctx[0]);
-    			add_location(p, file$4, 41, 10, 1083);
-    			attr_dev(li, "class", "svelte-c89h3r");
+    			add_location(p, file$4, 47, 10, 1263);
+    			attr_dev(li, "class", "svelte-1pd6vzn");
     			toggle_class(li, "recieve", /*message*/ ctx[4].from === /*name*/ ctx[0]);
-    			add_location(li, file$4, 40, 8, 1029);
+    			add_location(li, file$4, 43, 8, 1118);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
     			append_dev(li, p);
     			append_dev(p, t0);
     			append_dev(li, t1);
+    			current = true;
     		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*messages*/ 4 && t0_value !== (t0_value = /*message*/ ctx[4].message + "")) set_data_dev(t0, t0_value);
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if ((!current || dirty & /*messages*/ 4) && t0_value !== (t0_value = /*message*/ ctx[4].message + "")) set_data_dev(t0, t0_value);
 
     			if (dirty & /*messages, name*/ 5) {
     				toggle_class(p, "right", /*message*/ ctx[4].from === /*name*/ ctx[0]);
@@ -8606,8 +8645,40 @@ var app = (function () {
     				toggle_class(li, "recieve", /*message*/ ctx[4].from === /*name*/ ctx[0]);
     			}
     		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			add_render_callback(() => {
+    				if (!li_transition) li_transition = create_bidirectional_transition(
+    					li,
+    					fly,
+    					{
+    						x: /*message*/ ctx[4].from === /*name*/ ctx[0] ? 100 : -100
+    					},
+    					true
+    				);
+
+    				li_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			if (!li_transition) li_transition = create_bidirectional_transition(
+    				li,
+    				fly,
+    				{
+    					x: /*message*/ ctx[4].from === /*name*/ ctx[0] ? 100 : -100
+    				},
+    				false
+    			);
+
+    			li_transition.run(0);
+    			current = false;
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
+    			if (detaching && li_transition) li_transition.end();
     		}
     	};
 
@@ -8615,7 +8686,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(40:6) {#each messages as message}",
+    		source: "(43:6) {#each messages as message}",
     		ctx
     	});
 
@@ -8634,6 +8705,7 @@ var app = (function () {
     	let input;
     	let t3;
     	let button;
+    	let current;
     	let mounted;
     	let dispose;
     	let if_block = /*toggle*/ ctx[1] && create_if_block(ctx);
@@ -8644,6 +8716,10 @@ var app = (function () {
     	for (let i = 0; i < each_value.length; i += 1) {
     		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
 
     	const block = {
     		c: function create() {
@@ -8665,23 +8741,23 @@ var app = (function () {
     			t3 = space();
     			button = element("button");
     			button.textContent = "Send";
-    			attr_dev(ul, "class", "svelte-c89h3r");
-    			add_location(ul, file$4, 38, 4, 956);
-    			attr_dev(span, "class", "svelte-c89h3r");
-    			add_location(span, file$4, 45, 4, 1190);
+    			attr_dev(ul, "class", "svelte-1pd6vzn");
+    			add_location(ul, file$4, 41, 4, 1045);
+    			attr_dev(span, "class", "svelte-1pd6vzn");
+    			add_location(span, file$4, 51, 4, 1370);
     			attr_dev(input, "type", "text");
-    			attr_dev(input, "class", "svelte-c89h3r");
-    			add_location(input, file$4, 47, 6, 1280);
+    			attr_dev(input, "class", "svelte-1pd6vzn");
+    			add_location(input, file$4, 53, 6, 1460);
     			attr_dev(button, "type", "submit");
-    			attr_dev(button, "class", "svelte-c89h3r");
-    			add_location(button, file$4, 48, 6, 1330);
-    			attr_dev(form, "class", "svelte-c89h3r");
-    			add_location(form, file$4, 46, 4, 1228);
-    			attr_dev(div0, "class", "container svelte-c89h3r");
-    			add_location(div0, file$4, 37, 2, 927);
-    			attr_dev(div1, "class", "chat svelte-c89h3r");
+    			attr_dev(button, "class", "svelte-1pd6vzn");
+    			add_location(button, file$4, 54, 6, 1510);
+    			attr_dev(form, "class", "svelte-1pd6vzn");
+    			add_location(form, file$4, 52, 4, 1408);
+    			attr_dev(div0, "class", "container svelte-1pd6vzn");
+    			add_location(div0, file$4, 40, 2, 1016);
+    			attr_dev(div1, "class", "chat svelte-1pd6vzn");
     			toggle_class(div1, "open", /*toggle*/ ctx[1]);
-    			add_location(div1, file$4, 36, 0, 885);
+    			add_location(div1, file$4, 39, 0, 974);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8706,6 +8782,7 @@ var app = (function () {
     			set_input_value(input, /*message*/ ctx[4]);
     			append_dev(form, t3);
     			append_dev(form, button);
+    			current = true;
 
     			if (!mounted) {
     				dispose = [
@@ -8741,18 +8818,22 @@ var app = (function () {
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(ul, null);
     					}
     				}
 
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
     				}
 
-    				each_blocks.length = each_value.length;
+    				check_outros();
     			}
 
     			if (dirty & /*message*/ 16 && input.value !== /*message*/ ctx[4]) {
@@ -8763,8 +8844,24 @@ var app = (function () {
     				toggle_class(div1, "open", /*toggle*/ ctx[1]);
     			}
     		},
-    		i: noop,
-    		o: noop,
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
     		d: function destroy(detaching) {
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(t0);
@@ -8813,8 +8910,10 @@ var app = (function () {
     	});
 
     	const addMessage = () => {
-    		socket$2.emit("newMessage", { message, from: name });
-    		$$invalidate(4, message = "");
+    		if (message.trim().length) {
+    			socket$2.emit("newMessage", { message, from: name });
+    			$$invalidate(4, message = "");
+    		}
     	};
 
     	const toggleDrawer = () => $$invalidate(1, toggle = !toggle);
@@ -8843,6 +8942,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		socket: socket$2,
     		onMount,
+    		fly,
     		name,
     		toggle,
     		message,
@@ -8916,12 +9016,12 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (137:4) {#each $marks as mark, i}
+    // (138:4) {#each $marks as mark, i}
     function create_each_block$1(ctx) {
     	let div;
     	let button;
     	let t;
-    	let div_id_value;
+    	let div_transition;
     	let current;
     	let mounted;
     	let dispose;
@@ -8941,8 +9041,7 @@ var app = (function () {
     			create_component(button.$$.fragment);
     			t = space();
     			attr_dev(div, "class", "block svelte-x5hn2i");
-    			attr_dev(div, "id", div_id_value = /*i*/ ctx[20]);
-    			add_location(div, file$5, 137, 6, 3500);
+    			add_location(div, file$5, 138, 6, 3546);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8964,15 +9063,24 @@ var app = (function () {
     		i: function intro(local) {
     			if (current) return;
     			transition_in(button.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div_transition) div_transition = create_bidirectional_transition(div, scale, {}, true);
+    				div_transition.run(1);
+    			});
+
     			current = true;
     		},
     		o: function outro(local) {
     			transition_out(button.$$.fragment, local);
+    			if (!div_transition) div_transition = create_bidirectional_transition(div, scale, {}, false);
+    			div_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
     			destroy_component(button);
+    			if (detaching && div_transition) div_transition.end();
     			mounted = false;
     			dispose();
     		}
@@ -8982,14 +9090,14 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(137:4) {#each $marks as mark, i}",
+    		source: "(138:4) {#each $marks as mark, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (144:0) {#if winner || tie}
+    // (145:0) {#if winner || tie}
     function create_if_block$1(ctx) {
     	let gameover;
     	let current;
@@ -9028,7 +9136,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(144:0) {#if winner || tie}",
+    		source: "(145:0) {#if winner || tie}",
     		ctx
     	});
 
@@ -9153,9 +9261,9 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(div0, "class", "blocks svelte-x5hn2i");
-    			add_location(div0, file$5, 135, 2, 3422);
+    			add_location(div0, file$5, 136, 2, 3468);
     			attr_dev(div1, "class", "container svelte-x5hn2i");
-    			add_location(div1, file$5, 134, 0, 3379);
+    			add_location(div1, file$5, 135, 0, 3425);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9591,6 +9699,7 @@ var app = (function () {
     		socket: socket$2,
     		onMount,
     		Chat,
+    		scale,
     		name,
     		roomCode,
     		winner,

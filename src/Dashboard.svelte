@@ -6,6 +6,7 @@
   import marks, { socket } from "./store";
   import { onMount } from "svelte";
   import Chat from "./Chat.svelte";
+  import { scale } from "svelte/transition";
 
   export let name;
   export let roomCode;
@@ -135,7 +136,7 @@
 <div class="container" transition:fade>
   <div class="blocks" bind:this={blocks}>
     {#each $marks as mark, i}
-      <div class="block" id={i} on:click={() => nextTurn(i)}>
+      <div transition:scale class="block" on:click={() => nextTurn(i)}>
         <Button text={mark} />
       </div>
     {/each}
