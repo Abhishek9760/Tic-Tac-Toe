@@ -47,7 +47,7 @@
 </script>
 
 {#if toggle}
-  <div class="backdrop" on:click />
+  <div class="backdrop" on:click={toggleDrawer} />
 {/if}
 <div class="chat" class:shadow={!toggle && count > 0} class:open={toggle}>
   <div class="container">
@@ -72,6 +72,7 @@
     transition: all 0.5s cubic-bezier(0.47, 0.01, 0, 1.01);
     transform: translateX(-100%);
     max-width: 75%;
+    overflow: hidden;
   }
 
   .container {
