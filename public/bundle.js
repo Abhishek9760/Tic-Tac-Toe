@@ -9125,9 +9125,9 @@ var app = (function () {
     			span = element("span");
     			p = element("p");
     			t = text(t_value);
-    			attr_dev(p, "class", "svelte-8m0tj2");
-    			add_location(p, file$7, 4, 32, 76);
-    			attr_dev(span, "class", "noselect svelte-8m0tj2");
+    			attr_dev(p, "class", "svelte-ba8w6x");
+    			add_location(p, file$7, 4, 15, 59);
+    			attr_dev(span, "class", "svelte-ba8w6x");
     			add_location(span, file$7, 4, 0, 44);
     		},
     		l: function claim(nodes) {
@@ -9245,10 +9245,11 @@ var app = (function () {
     			insert_dev(target, div, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(div, "click", /*click_handler*/ ctx[8], false, false, false);
+    				dispose = listen_dev(div, "click", /*toggleDrawer*/ ctx[7], false, false, false);
     				mounted = true;
     			}
     		},
+    		p: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
     			mounted = false;
@@ -9282,7 +9283,7 @@ var app = (function () {
     	let if_block = /*toggle*/ ctx[1] && create_if_block(ctx);
 
     	function messageslist_list_binding(value) {
-    		/*messageslist_list_binding*/ ctx[9](value);
+    		/*messageslist_list_binding*/ ctx[8](value);
     	}
 
     	let messageslist_props = {
@@ -9309,7 +9310,7 @@ var app = (function () {
     	drawerbutton.$on("click", /*toggleDrawer*/ ctx[7]);
 
     	function form_message_binding(value) {
-    		/*form_message_binding*/ ctx[10](value);
+    		/*form_message_binding*/ ctx[9](value);
     	}
 
     	let form_props = {};
@@ -9334,11 +9335,11 @@ var app = (function () {
     			t2 = space();
     			create_component(form.$$.fragment);
     			attr_dev(div0, "class", "container svelte-19vrt4t");
-    			add_location(div0, file$8, 52, 2, 1257);
+    			add_location(div0, file$8, 52, 2, 1272);
     			attr_dev(div1, "class", "chat svelte-19vrt4t");
     			toggle_class(div1, "shadow", !/*toggle*/ ctx[1] && /*count*/ ctx[5] > 0);
     			toggle_class(div1, "open", /*toggle*/ ctx[1]);
-    			add_location(div1, file$8, 51, 0, 1179);
+    			add_location(div1, file$8, 51, 0, 1194);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9357,7 +9358,9 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			if (/*toggle*/ ctx[1]) {
-    				if (if_block) ; else {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
     					if_block = create_if_block(ctx);
     					if_block.c();
     					if_block.m(t0.parentNode, t0);
@@ -9485,10 +9488,6 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Chat> was created with unknown prop '${key}'`);
     	});
 
-    	function click_handler(event) {
-    		bubble.call(this, $$self, event);
-    	}
-
     	function messageslist_list_binding(value) {
     		list = value;
     		$$invalidate(4, list);
@@ -9541,7 +9540,6 @@ var app = (function () {
     		count,
     		addMessage,
     		toggleDrawer,
-    		click_handler,
     		messageslist_list_binding,
     		form_message_binding
     	];
