@@ -9126,8 +9126,8 @@ var app = (function () {
     			p = element("p");
     			t = text(t_value);
     			attr_dev(p, "class", "svelte-8m0tj2");
-    			add_location(p, file$7, 4, 15, 59);
-    			attr_dev(span, "class", "svelte-8m0tj2");
+    			add_location(p, file$7, 4, 32, 76);
+    			attr_dev(span, "class", "noselect svelte-8m0tj2");
     			add_location(span, file$7, 4, 0, 44);
     		},
     		l: function claim(nodes) {

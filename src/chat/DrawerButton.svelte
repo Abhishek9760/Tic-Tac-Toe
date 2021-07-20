@@ -2,7 +2,7 @@
   export let count;
 </script>
 
-<span on:click><p>{count ? count : ""}</p></span>
+<span on:click class="noselect"><p>{count ? count : ""}</p></span>
 
 <style>
   span {
