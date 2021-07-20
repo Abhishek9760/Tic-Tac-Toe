@@ -156,6 +156,7 @@
     border-radius: 10px;
     height: 70%;
     width: 500px;
+    z-index: 1;
   }
 
   .blocks {
@@ -167,9 +168,7 @@
     grid-gap: 20px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 1em;
-    backdrop-filter: blur(8px);
     border: solid 2px rgba(255, 255, 255, 0.15);
-    background-clip: padding-box;
   }
 
   .block {
@@ -178,9 +177,7 @@
     background: rgba(255, 255, 255, 0.3);
     border-radius: 1em;
     color: white;
-    backdrop-filter: blur(8px);
     border: solid 2px rgba(255, 255, 255, 0.3);
-    background-clip: padding-box;
   }
 
   .block:hover,

@@ -2,7 +2,7 @@
   export let text;
 </script>
 
-<div class="backdrop">
+<div class="backdrop" on:click>
   <div class="game-over">
     <h1>Game Over</h1>
     <button on:click>{text}</button>
@@ -17,13 +17,7 @@
     line-height: 5rem;
     border-bottom: 1px solid rgb(145, 137, 229);
   }
-  .backdrop {
-    position: absolute;
-    inset: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
+
   .game-over {
     text-transform: uppercase;
     padding: 25px;
@@ -35,11 +29,10 @@
     text-align: center;
     color: #fff;
     animation: gameOver 0.5s ease-in-out;
-    background: rgba(37, 21, 208, 0.476);
+    background: rgb(37, 21, 208);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1;
   }
 
   button {

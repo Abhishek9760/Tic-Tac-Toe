@@ -11,6 +11,7 @@ const wins = [
     [0, 4, 8],
     [2, 4, 6],
 ];
+// const socket = io("http://localhost:3000");
 const socket = io("https://fathomless-stream-20577.herokuapp.com/");
 function createStore() {
     const marks = writable(Array.from(" ".repeat(9)));

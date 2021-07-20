@@ -5,21 +5,21 @@
   let toggle = false;
   let message = "";
   let messages = [];
+  let messageList;
 
   onMount(() => {
     socket.on("messageFromServer", (message) => {
-      console.log(message, name);
       messages = [...messages, message];
+      setTimeout(() => (messageList.scrollTop = messageList.scrollHeight));
     });
 
     socket.on("getHis", () => {
-      console.log("getHis");
       socket.emit("messages", messages);
     });
 
     socket.on("getMsgs", (data) => {
-      console.log("data is", data);
       messages = data;
+      setTimeout(() => (messageList.scrollTop = messageList.scrollHeight));
     });
   });
 
@@ -31,9 +31,12 @@
   const toggleDrawer = () => (toggle = !toggle);
 </script>
 
+{#if toggle}
+  <div class="backdrop" on:click={toggleDrawer} />
+{/if}
 <div class="chat" class:open={toggle}>
   <div class="container">
-    <ul>
+    <ul bind:this={messageList}>
       {#each messages as message}
         <li class:recieve={message.from === name}>
           <p class:right={message.from === name}>{message.message}</p>
@@ -56,15 +59,12 @@
     z-index: 100;
     height: 100%;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgb(29 91 108);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
     transition: all 0.5s cubic-bezier(0.47, 0.01, 0, 1.01);
     transform: translateX(-100%);
+    max-width: 75%;
   }
 
   .container {
@@ -72,6 +72,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
+    padding-right: 20px;
   }
 
   .open {
@@ -88,15 +89,11 @@
     right: 0;
     height: 50px;
     width: 50px;
-    background-color: rgb(21, 243, 246);
     border-radius: 50%;
     transform: translateX(50%);
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.55);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 5px solid rgba(255, 255, 255, 0.669);
+    background: rgb(22 138 141);
+    border: 2px solid rgb(255, 255, 255);
   }
 
   .right {
@@ -126,8 +123,6 @@
   button {
     background: rgb(15 185 173 / 50%);
     box-shadow: 0 8px 32px 0 rgba(74, 74, 80, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
     color: #fff;
@@ -151,12 +146,7 @@
   }
 
   li {
-    background: rgba(198, 231, 222, 0.45);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-radius: inherit;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgb(198, 231, 222);
     padding: 10px;
     display: flex;
     max-height: 100px;
@@ -171,5 +161,19 @@
   p {
     max-width: 16ch;
     font-size: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    span {
+      height: 35px;
+      width: 35px;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+
+    .chat {
+      max-width: 85%;
+    }
   }
 </style>
