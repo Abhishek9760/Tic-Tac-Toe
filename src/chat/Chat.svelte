@@ -72,7 +72,6 @@
     transition: all 0.5s cubic-bezier(0.47, 0.01, 0, 1.01);
     transform: translateX(-100%);
     max-width: 75%;
-    overflow: hidden;
   }
 
   .container {
