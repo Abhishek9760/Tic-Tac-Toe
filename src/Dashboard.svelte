@@ -5,7 +5,7 @@
   import GameOver from "./GameOver.svelte";
   import marks, { socket } from "./store";
   import { onMount } from "svelte";
-  import Chat from "./Chat.svelte";
+  import Chat from "./chat/Chat.svelte";
   import { scale } from "svelte/transition";
 
   export let name;
