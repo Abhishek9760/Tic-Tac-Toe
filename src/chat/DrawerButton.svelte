@@ -2,7 +2,7 @@
   export let count;
 </script>
 
-<span on:click class="noselect"><p>{count ? count : ""}</p></span>
+<span on:click><p>{count ? count : ""}</p></span>
 
 <style>
   span {
@@ -24,6 +24,10 @@
     left: 50%;
     transform: translate(50%, -50%);
     color: #fff;
+  }
+
+  span::selection {
+    background-color: transparent;
   }
   @media (max-width: 500px) {
     span {
