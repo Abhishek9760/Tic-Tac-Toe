@@ -38,6 +38,7 @@
       socket.emit("newMessage", { message, from: name });
       messages = [...messages, { message, from: name }];
       message = "";
+      setTimeout(() => (list.scrollTop = list.scrollHeight));
     }
   };
 
