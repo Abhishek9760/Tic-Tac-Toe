@@ -11,6 +11,7 @@
     right: 0;
     height: 50px;
     width: 50px;
+    font-size: 0.9rem;
     border-radius: 50%;
     transform: translateX(50%);
     cursor: pointer;
@@ -33,6 +34,7 @@
     span {
       height: 40px;
       width: 40px;
+      font-size: 0.7rem;
     }
   }
 </style>
