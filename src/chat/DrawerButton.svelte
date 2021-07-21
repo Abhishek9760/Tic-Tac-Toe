@@ -14,8 +14,8 @@
     border-radius: 50%;
     transform: translateX(50%);
     cursor: pointer;
-    background: rgb(22 138 141);
-    border: 2px solid rgb(255, 255, 255);
+    background: rgba(22, 138, 141, 1);
+    border: 2px solid rgba(255, 255, 255, 1);
   }
 
   span p {

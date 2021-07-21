@@ -36,6 +36,7 @@
   const addMessage = () => {
     if (message.trim().length) {
       socket.emit("newMessage", { message, from: name });
+      messages = [...messages, { message, from: name }];
       message = "";
     }
   };
@@ -68,7 +69,7 @@
     z-index: 100;
     height: 100%;
     padding: 10px;
-    background: rgb(29 91 108);
+    background: rgba(29, 91, 108, 0);
     transition: all 0.5s cubic-bezier(0.47, 0.01, 0, 1.01);
     transform: translateX(-100%);
     max-width: 75%;
@@ -84,6 +85,7 @@
 
   .open {
     transform: translateX(0);
+    background: rgba(29, 91, 108, 1);
   }
 
   @media (max-width: 500px) {

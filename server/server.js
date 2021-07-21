@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('newMessage', (msg) => {
-        io.to(roomName).emit('messageFromServer', {
+        socket.to(roomName).emit('messageFromServer', {
             ...msg,
             id: socket.id,
         })
