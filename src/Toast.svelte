@@ -30,6 +30,7 @@
     background: rgba(55, 42, 202, 0.476);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     border: 1px solid rgba(255, 255, 255, 0.18);
+    top: 0;
   }
 
   span p {
