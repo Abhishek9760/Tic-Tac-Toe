@@ -15,6 +15,9 @@ body {
     place-items: center;
     overflow: hidden;
     font-size: 100%;
+	background-image:linear-gradient(
+45deg
+, #217762, #4e097b);
 }
 .backdrop {
     position: fixed;
