@@ -1,8 +1,5 @@
 # Tic Tac Toe
 <pre>
-Made with sveltejs + socketio
+Made with sveltejs + socketio (<a href="ticcytoe.netlify.app">demo</a>)
 </pre>
 ![screen-gif](./sample/trial.gif)
-
-# Demo
-<p>ticcytoe.netlify.app</p>
