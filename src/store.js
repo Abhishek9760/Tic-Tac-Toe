@@ -12,7 +12,7 @@ const wins = [
     [2, 4, 6],
 ];
 // const socket = io("http://localhost:3000");
-const socket = io("https://fathomless-stream-20577.herokuapp.com/");
+const socket = io("https://tic-tac-toe-server-tfd9.onrender.com/");
 function createStore() {
     const marks = writable(Array.from(" ".repeat(9)));
 
